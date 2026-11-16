@@ -1,0 +1,15 @@
+# secrets - never commit
+.env
+.env.*
+# local environments / caches
+venv/
+.venv/
+__pycache__/
+*.pyc
+# runtime data (real alert data, logs, trained models) - never commit
+data/
+logs/
+model/
+*.db
+*.joblib
+*.pkl

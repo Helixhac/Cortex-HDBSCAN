@@ -1,0 +1,176 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="JDU8tKR-ueGEJozyehU6" name="Page-1">
+    <mxGraphModel dx="704" dy="452" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ph1" parent="1" style="text;html=1;strokeColor=#444444;fillColor=#1a1a2e;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontColor=#aaaaaa;fontSize=11;fontStyle=1;arcSize=5;" value="MƏRHƏLƏ 1 — Əvvəllər olan cortexdəki alertlərin datasını toplama və bu dataları ML modelinin örgənməsi" vertex="1">
+          <mxGeometry height="22" width="640" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0c447c;strokeColor=#85b7eb;fontColor=#b5d4f4;fontSize=12;arcSize=10;" value="&lt;b&gt;Cortex XDR API&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;get_alerts · son 30 gün · batch&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="220" x="80" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#085041;strokeColor=#5dcaa5;fontColor=#9fe1cb;fontSize=12;arcSize=10;" value="&lt;b&gt;Filtrləmə və Preprocessing&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;pandas · dedup · null temizleme&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="240" x="360" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="n1" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#888888;fontColor=#888888;fontSize=10;" target="n2" value="HTTP POST">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#085041;strokeColor=#5dcaa5;fontColor=#9fe1cb;fontSize=12;arcSize=10;" value="&lt;b&gt;Feature Extraction&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;username\ hostname \ hour_of_day \ severity_num \ alert_type \ host_criticality \ user_rarity&amp;nbsp;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="440" x="120" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="n2" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#888888;" target="n3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3c3489;strokeColor=#afa9ec;fontColor=#cecbf6;fontSize=12;arcSize=10;" value="&lt;b&gt;HDBSCAN Model — Training (fit)&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;hdbscan.fit(X_train) · normal cluster-lar öyrənilir&lt;br/&gt;noise point (-1) = anormal davranış&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="440" x="120" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;" target="n4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#444441;strokeColor=#b4b2a9;fontColor=#d3d1c7;fontSize=12;arcSize=10;" value="&lt;b&gt;Model saxla&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;joblib.dump() · model.pkl&lt;/font&gt;" vertex="1">
+          <mxGeometry height="44" width="280" x="200" y="344" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="n4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;" target="n5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ph2" parent="1" style="text;html=1;strokeColor=#444444;fillColor=#1a1a2e;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontColor=#aaaaaa;fontSize=11;fontStyle=1;arcSize=5;" value="MƏRHƏLƏ 2 — Real-time monitoring (hər 5 dəqiqə)" vertex="1">
+          <mxGeometry height="22" width="640" x="20" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#633806;strokeColor=#ef9f27;fontColor=#fac775;fontSize=12;arcSize=10;" value="&lt;b&gt;Scheduler (APScheduler)&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;hər 5 dəq → API çağırışı&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="280" x="200" y="456" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0c447c;strokeColor=#85b7eb;fontColor=#b5d4f4;fontSize=12;arcSize=10;" value="&lt;b&gt;Yeni alertlər çək&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;son 5 dəqiqə · start_time=now-5min · end_time=now&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="440" x="120" y="546" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="n6" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;" target="n7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#444441;strokeColor=#b4b2a9;fontColor=#d3d1c7;fontSize=12;arcSize=10;" value="&lt;b&gt;Alert var?&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;Boş olarsa → növbəti cycle-a keç&lt;/font&gt;" vertex="1">
+          <mxGeometry height="44" width="280" x="200" y="636" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="n7" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;" target="n8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6b" edge="1" parent="1" source="n8" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#555555;fontColor=#666666;fontSize=10;dashed=1;" target="n6" value="boş">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="130" y="658" />
+              <mxPoint x="130" y="484" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#085041;strokeColor=#5dcaa5;fontColor=#9fe1cb;fontSize=12;arcSize=10;" value="&lt;b&gt;Feature Extraction (eyni pipeline)&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;hour_of_day · severity · alert_type · host_criticality&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="440" x="120" y="714" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="n8" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;fontColor=#888888;fontSize=10;" target="n9" value="var">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3c3489;strokeColor=#afa9ec;fontColor=#cecbf6;fontSize=12;arcSize=10;" value="&lt;b&gt;Model yüklə və predict et&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;joblib.load() → hdbscan.approximate_predict(X_new)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="440" x="120" y="804" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="n9" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;" target="n10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ph3" parent="1" style="text;html=1;strokeColor=#444444;fillColor=#1a1a2e;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontColor=#aaaaaa;fontSize=11;fontStyle=1;arcSize=5;" value="MƏRHƏLƏ 3 — Anomaliya qərarı" vertex="1">
+          <mxGeometry height="22" width="640" x="20" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#2a2a3e;strokeColor=#888888;fontColor=#dddddd;fontSize=12;" value="&lt;b&gt;Noise point?&lt;/b&gt;&lt;br/&gt;label == -1" vertex="1">
+          <mxGeometry height="90" width="200" x="240" y="916" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="n10" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;" target="n11" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0c447c;strokeColor=#85b7eb;fontColor=#b5d4f4;fontSize=12;arcSize=10;" value="&lt;b&gt;Normal log&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;SQLite-ə yaz&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="160" x="20" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="n11" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#4a9fd4;fontColor=#4a9fd4;fontSize=11;fontStyle=1;" target="n12" value="XEYİR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#993c1d;strokeColor=#f0997b;fontColor=#f5c4b3;fontSize=12;arcSize=10;" value="&lt;b&gt;anomaliyanını göstər&lt;/b&gt;" vertex="1">
+          <mxGeometry height="56" width="160" x="500" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="n11" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#d85a30;fontColor=#d85a30;fontSize=11;fontStyle=1;" target="n13" value="BƏLİ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#444441;strokeColor=#b4b2a9;fontColor=#d3d1c7;fontSize=12;arcSize=10;" value="&lt;b&gt;Bazaya yaz&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;SQLite: alert_id · score · label · new_sev&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="280" x="200" y="1088" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="n12" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;" target="n14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="n13" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;" target="n14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ph4" parent="1" style="text;html=1;strokeColor=#444444;fillColor=#1a1a2e;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontColor=#aaaaaa;fontSize=11;fontStyle=1;arcSize=5;" value="MƏRHƏLƏ 4 — Dashboard (Streamlit/FastAPI)" vertex="1">
+          <mxGeometry height="22" width="640" x="20" y="1166" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#633806;strokeColor=#ef9f27;fontColor=#fac775;fontSize=12;arcSize=10;" value="&lt;b&gt;FastAPI / Streamlit backend&lt;/b&gt;&lt;br/&gt;&lt;font style=&#39;font-size:11px&#39;&gt;SQLite-dən oxu · JSON API · filtrlər&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="440" x="120" y="1200" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="n14" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;" target="n15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n16a" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e3a1e;strokeColor=#639922;fontColor=#c0dd97;fontSize=12;arcSize=10;" value="Anomaliya siyahısı" vertex="1">
+          <mxGeometry height="44" width="170" x="55" y="1290" as="geometry" />
+        </mxCell>
+        <mxCell id="n16b" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e3a1e;strokeColor=#639922;fontColor=#c0dd97;fontSize=12;arcSize=10;" value="Severity dəyişimləri" vertex="1">
+          <mxGeometry height="44" width="170" x="245" y="1290" as="geometry" />
+        </mxCell>
+        <mxCell id="n16c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e3a1e;strokeColor=#639922;fontColor=#c0dd97;fontSize=12;arcSize=10;" value="Zero-day şübhəli alertlər" vertex="1">
+          <mxGeometry height="44" width="190" x="435" y="1290" as="geometry" />
+        </mxCell>
+        <mxCell id="e15a" edge="1" parent="1" source="n15" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#639922;" target="n16a" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15b" edge="1" parent="1" source="n15" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#639922;" target="n16b" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15c" edge="1" parent="1" source="n15" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#639922;" target="n16c" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ph5" parent="1" style="text;html=1;strokeColor=#444444;fillColor=#1a1a2e;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontColor=#aaaaaa;fontSize=11;fontStyle=1;arcSize=5;" value="MƏRHƏLƏ 5 — Həftəlik model yenilənməsi (optional)" vertex="1">
+          <mxGeometry height="22" width="640" x="20" y="1360" as="geometry" />
+        </mxCell>
+        <mxCell id="n17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3c3489;strokeColor=#afa9ec;fontColor=#cecbf6;fontSize=12;arcSize=10;" value="&lt;b&gt;Günlük retrain&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;köhnə + yeni alertlər → yeni model.pkl&lt;/font&gt;" vertex="1">
+          <mxGeometry height="56" width="440" x="120" y="1394" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="n16b" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#888888;" target="n17" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="n17" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#555555;fontColor=#666666;fontSize=10;dashed=1;" target="n4" value="yenilə">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="1422" />
+              <mxPoint x="40" y="275" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ph6" parent="1" style="text;html=1;strokeColor=#444444;fillColor=#1a1a2e;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontColor=#aaaaaa;fontSize=11;fontStyle=1;arcSize=5;" value="İstifadə olunan texnologiyalar" vertex="1">
+          <mxGeometry height="22" width="640" x="20" y="1475" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0c447c;strokeColor=#85b7eb;fontColor=#b5d4f4;fontSize=12;arcSize=10;" value="&lt;b&gt;API layer&lt;/b&gt;&lt;br/&gt;requests · json" vertex="1">
+          <mxGeometry height="44" width="140" x="30" y="1510" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#085041;strokeColor=#5dcaa5;fontColor=#9fe1cb;fontSize=12;arcSize=10;" value="&lt;b&gt;Data işleme&lt;/b&gt;&lt;br/&gt;pandas · numpy" vertex="1">
+          <mxGeometry height="44" width="140" x="185" y="1510" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3c3489;strokeColor=#afa9ec;fontColor=#cecbf6;fontSize=12;arcSize=10;" value="&lt;b&gt;ML model&lt;/b&gt;&lt;br/&gt;hdbscan · joblib" vertex="1">
+          <mxGeometry height="44" width="140" x="340" y="1510" as="geometry" />
+        </mxCell>
+        <mxCell id="t4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#633806;strokeColor=#ef9f27;fontColor=#fac775;fontSize=12;arcSize=10;" value="&lt;b&gt;Dashboard&lt;/b&gt;&lt;br/&gt;Streamlit · FastAPI" vertex="1">
+          <mxGeometry height="44" width="155" x="495" y="1510" as="geometry" />
+        </mxCell>
+        <mxCell id="t5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#444441;strokeColor=#b4b2a9;fontColor=#d3d1c7;fontSize=12;arcSize=10;" value="&lt;b&gt;Zamanlayıcı&lt;/b&gt;&lt;br/&gt;APScheduler / cron" vertex="1">
+          <mxGeometry height="44" width="190" x="30" y="1568" as="geometry" />
+        </mxCell>
+        <mxCell id="t6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#444441;strokeColor=#b4b2a9;fontColor=#d3d1c7;fontSize=12;arcSize=10;" value="&lt;b&gt;Verilənlər bazası&lt;/b&gt;&lt;br/&gt;SQLite / PostgreSQL" vertex="1">
+          <mxGeometry height="44" width="190" x="240" y="1568" as="geometry" />
+        </mxCell>
+        <mxCell id="t7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#444441;strokeColor=#b4b2a9;fontColor=#d3d1c7;fontSize=12;arcSize=10;" value="&lt;b&gt;Konfiqurasiya&lt;/b&gt;&lt;br/&gt;.env · python-dotenv" vertex="1">
+          <mxGeometry height="44" width="200" x="450" y="1568" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
